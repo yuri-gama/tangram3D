@@ -19,6 +19,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 camera.position.z = 180;
+let zAnchor = camera.position.z;
 
 const geometry1 = new THREE.PlaneGeometry(180, 180);
 const material1 = new THREE.MeshBasicMaterial({
@@ -84,8 +85,9 @@ tracker.randomizer(200)
 
 function animate() {
     requestAnimationFrame(animate);
-    camera.position.setX(30*Math.cos(clock.getElapsedTime()));
-    camera.position.setY(30*Math.sin(clock.getElapsedTime()));
+    camera.position.setX(50*Math.cos(clock.getElapsedTime()));
+    camera.position.setY(50*Math.sin(clock.getElapsedTime()));
+    camera.position.setZ(zAnchor + 30*Math.sin(clock.getElapsedTime()))
     camera.lookAt(0, 0, 0);
 
     let coveredArea = tracker.area()
