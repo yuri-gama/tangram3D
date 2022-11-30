@@ -14,7 +14,7 @@ const camera = new THREE.PerspectiveCamera(
     1000
 );
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({logarithmicDepthBuffer: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -31,14 +31,15 @@ scene.add(plane);
 const originY = -90;
 const originX = -90;
 
+const v = 10
 let shapes = [
-    createMesh([[0, 0], [90, 0], [45, 45]], 0xfcefb4, originX, originY),
-    createMesh([[0, 0], [0, 180], [90, 90]], 0xf2ab7e, originX, originY),
-    createMesh([[0, 180], [180, 180], [90, 90]], 0xfcd888, originX, originY),
-    createMesh([[90, 0], [180, 0], [180, 90]], 0xa9a875, originX, originY),
-    createMesh([[90, 90], [135, 135], [135, 45]], 0xb1be9d, originX, originY),
-    createMesh([[45, 45], [90, 90], [135, 45], [90, 0]], 0xfae588, originX, originY),
-    createMesh([[135, 135], [180, 180], [180, 90], [135, 45]], 0xffcb69, originX, originY)
+    createMesh([[0, 0], [90, 0], [45, 45]], 0xfcefb4, originX, originY, v),
+    createMesh([[0, 0], [0, 180], [90, 90]], 0xf2ab7e, originX, originY, v - 0.001),
+    createMesh([[0, 180], [180, 180], [90, 90]], 0xfcd888, originX, originY, v + 0.001),
+    createMesh([[90, 0], [180, 0], [180, 90]], 0xa9a875, originX, originY, v - 0.002),
+    createMesh([[90, 90], [135, 135], [135, 45]], 0xb1be9d, originX, originY, v + 0.002),
+    createMesh([[45, 45], [90, 90], [135, 45], [90, 0]], 0xfae588, originX, originY, v - 0.003),
+    createMesh([[135, 135], [180, 180], [180, 90], [135, 45]], 0xffcb69, originX, originY, v + 0.003)
 ];
 
 for (let shape of shapes)

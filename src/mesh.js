@@ -21,7 +21,7 @@ export function extractEdgesFromMesh(mesh) {
     return edges;
 }
 
-export function createMesh(points, color, originX, originY) {
+export function createMesh(points, color, originX, originY, v) {
     let vectors = points.map(
         (p) => new THREE.Vector2(originX + p[0], originY + p[1])
     ),
@@ -29,17 +29,12 @@ export function createMesh(points, color, originX, originY) {
         // geometry = new THREE.ShapeGeometry(shape),
 
     const extrudeSettings = {
-        steps: 2,
-        depth: 16,
-        bevelEnabled: true,
-        bevelThickness: 1,
-        bevelSize: 1,
-        bevelOffset: 0,
-        bevelSegments: 1
+        steps: 1,
+        depth: v
     }
 
 
-        let geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+    let geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
         let material = new THREE.MeshBasicMaterial({ color: color });
 
     return new THREE.Mesh(geometry, material);
