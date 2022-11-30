@@ -5,6 +5,8 @@ import { createMesh } from "./mesh.js";
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xFFFFFF)
 
+let clock = new THREE.Clock();
+
 const camera = new THREE.PerspectiveCamera(
     100,
     window.innerWidth / window.innerHeight,
@@ -81,6 +83,9 @@ tracker.randomizer(200)
 
 function animate() {
     requestAnimationFrame(animate);
+    camera.position.setX(30*Math.cos(clock.getElapsedTime()));
+    camera.position.setY(30*Math.sin(clock.getElapsedTime()));
+    camera.lookAt(0, 0, 0);
 
     let coveredArea = tracker.area()
     // console.log(coveredArea)
