@@ -10,6 +10,9 @@ export function extractEdgesFromMesh(mesh) {
         for (let v of vertexes) {
             mesh.localToWorld(v);
         }
+        if (Math.abs(vertexes[0].z) > 0.1 || Math.abs(vertexes[1].z) > 0.1) {
+            continue;
+        }
         edges.push({
             first: vertexes[0],
             second: vertexes[1],
