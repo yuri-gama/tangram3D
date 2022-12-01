@@ -5,12 +5,32 @@ Um jogo simples de Tangram
 ## Implementação do ambiente
 
 Utilizou-se three.js como _framework_ para desenhar mais facilmente
-os polígonos no _browser_. Criou-se um plano paralelo ao plano do _browser_
-em $z = 180$ como ambiente para desenho dos polígonos, e utilizou-se
-uma câmera perspectiva, com um tronco de bases paralelas como campo de visão.
-Os algoritmos foram todos implementados baseados no plano em $z = 180$. Para
-isso, projetou-se somente a posição do cursor para coordenadas de dispositivo
-normalizado da câmera, e então para o plano em $z = 180$.
+os polígonos no _browser_. Criou-se um plano em z = 0 como ambiente para
+desenho dos polígonos, e utilizou-se  uma câmera perspectiva, com um tronco
+de bases paralelas como campo de visão.
+
+## Movimentos da câmera
+
+Implementou-se um movimento de câmera
+atráves de curvas no tempo para dificultar o nível do jogo. Utilizou-se
+uma combinação de movimentos harmônicos nas três direções, todas com
+frequência angular unitária, de tal forma que a câmera se movimenta
+formando uma hélice, como descrito na figura a seguir.
+
+![camera movements](./asset/helix.png)
+
+As amplitudes dos movimentos x e y foram definidas como 50, de tal forma
+que a projeção da hélice no plano xy é uma circunferência de raio 50.
+Já a amplitude do movimento em z foi definida como 30.
+
+## Objetos 3D
+Fizemos o desenho do shape do objeto e em seguida uma extrusão no eixo z. Além disso, 
+para uma melhor visualição adicionamos uma luz a cena e um material que pega o efeito 
+do reflexo da luz. Facilitando, assim, a percepção da profundidade. As próximas seções, 
+tratam de algoritmos em um espaço bidimensional. Para a utilização desses algoritmos, 
+foi necessário fazer um tratamento dos vértices de cada mesh criado. A solução foi manter
+somente os vértices que estão no plano do z = 0. Como existe um erro de ponto flutuante, 
+a lógica utilizada foi retirar todos que satisfazem: |z| > 0.1.
 
 ## Algoritmo do ponto dentro do polígono
 Para conseguir implementar a funcionalidade de arrastar cada uma das imagens,
@@ -145,3 +165,23 @@ do Tangran.
 $$A_{\text{cobertura}} = \sum_{f} A[Q \cap f] - \sum_{f \ne g} A[f \cap g]$$
 
 $$\rho_{\text{cobertura}} = \dfrac{A_{\text{cobertura}}}{A[Q]}$$
+
+## Projeções entre o 3D e o 2D
+
+Boa parte da escalabilidade do código veio a tona em virtude de uma projeção
+realizada para converter os eventos do mouse para o mundo 3D e vice-versa.
+
+### Projetando da janela do _browser_ para o mundo 3D
+
+Para projetar os pontos do mouse, primeiramente projetou-se essas posições
+para o _canvas_, e em seguida projetou-se esta posição para o mundo 3D criando
+um raio que parte da câmera e verifica onde houve a interseção com o plano em z = 0.
+Não existe um caso de uso para essa direção de projeção, porém ela foi criada
+como par da outra direção de fato necessária, descrita a seguir.
+
+### Projetando do mundo 3D para a janela do _browser_
+
+Neste caso, projeta-se primeiro para o NDC da câmera, espaço de coordenadas
+normalizado, aproveitando-se dos utilitário do _threejs_ de projeções presentes
+nas suas classes de vetores. Em seguida, projeta-se do canvas para a janela do
+browser utilizando o procedimento inverso do descrito na seção anterior.
