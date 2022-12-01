@@ -13,6 +13,10 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
+let pointLight = new THREE.PointLight( 0xffffff );
+pointLight.position.set(0, 0, 100);
+camera.add(pointLight);
+scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({logarithmicDepthBuffer: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -32,7 +36,7 @@ scene.add(plane);
 const originY = -90;
 const originX = -90;
 
-const v = 10
+const v = 20
 let shapes = [
     createMesh([[0, 0], [90, 0], [45, 45]], 0xfcefb4, originX, originY, v),
     createMesh([[0, 0], [0, 180], [90, 90]], 0xf2ab7e, originX, originY, v - 0.001),
@@ -92,7 +96,7 @@ function animate() {
 
     let coveredArea = tracker.area()
     // console.log(coveredArea)
-    if (0.94 < coveredArea && coveredArea <= 1) {
+    if (0.90 < coveredArea && coveredArea <= 1) {
         alert("You rock!")
         tracker.randomizer(200)
     }

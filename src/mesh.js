@@ -35,7 +35,7 @@ export function createMesh(points, color, originX, originY, v) {
 
 
     let geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-        let material = new THREE.MeshBasicMaterial({ color: color });
+        let material = new THREE.MeshPhongMaterial({ color: color });
 
     return new THREE.Mesh(geometry, material);
 }
